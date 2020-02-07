@@ -1,19 +1,19 @@
-let state = {friends: []}
-
 export function manageFriends(state, action){
     switch (action.type) {
         case 'ADD_FRIEND':
-          return {friends: [ 
-              { name: 'Avi', 
-                hometown: 'NYC', 
-                id: 100 }, 
-              { name: 'Joe', 
-                hometown: 'Boston', 
-                id: 101 } 
-            ]
-          }
-        // case 'REMOVE_FRIEND':
-        //   return {friends: state.id - 1}
+          return ({
+            ...state,
+            friends: [...state.friends, action.friend]
+          })
+        case 'REMOVE_FRIEND':
+          const findFriend = state.friends.findIndex(friend => friend.id === action.id)
+          return ({  
+              ...state,
+              friends: [
+                  ...state.friends.slice(0, findFriend),
+                  ...state.friends.slice(findFriend + 1)
+              ]
+          })     
         default:
           return state;
     }
